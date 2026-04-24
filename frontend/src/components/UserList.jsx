@@ -4,10 +4,18 @@ export default function UserList() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
 
+  const API_BASE = import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "http://backend:5000";
+
   const loadUsers = async () => {
-    const res = await fetch("http://localhost:5000/users");
-    const data = await res.json();
-    setUsers(data);
+    try {
+      const res = await fetch(`${API_BASE}/users`);
+      const data = await res.json();
+      setUsers(data);
+    } catch (err) {
+      console.error("Error loading users:", err);
+    }
   };
 
   useEffect(() => {
@@ -17,16 +25,20 @@ export default function UserList() {
   const handleAdd = async () => {
     if (!name) return;
 
-    await fetch("http://localhost:5000/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name }),
-    });
+    try {
+      await fetch(`${API_BASE}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name }),
+      });
 
-    setName("");
-    loadUsers();
+      setName("");
+      loadUsers();
+    } catch (err) {
+      console.error("Error adding user:", err);
+    }
   };
 
   return (

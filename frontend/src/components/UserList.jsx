@@ -4,13 +4,9 @@ export default function UserList() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
 
-  const API_BASE = import.meta.env.DEV
-    ? "http://localhost:5000"
-    : "http://backend:5000";
-
   const loadUsers = async () => {
     try {
-      const res = await fetch(`${API_BASE}/users`);
+      const res = await fetch("/api/users");
       const data = await res.json();
       setUsers(data);
     } catch (err) {
@@ -26,7 +22,7 @@ export default function UserList() {
     if (!name) return;
 
     try {
-      await fetch(`${API_BASE}/users`, {
+      await fetch("/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +38,9 @@ export default function UserList() {
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
+      <h2>Users</h2>
+
       <input
         placeholder="Enter name"
         value={name}

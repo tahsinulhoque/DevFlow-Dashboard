@@ -45,6 +45,8 @@ resource "aws_instance" "DevFlow_ec2" {
   vpc_security_group_ids      = [aws_security_group.devflow_sg.id]
   associate_public_ip_address = true
 
+  key_name = "devflow-key"
+
   tags = {
     Name = "DevFlow-server"
   }

@@ -41,11 +41,16 @@ resource "aws_instance" "DevFlow_ec2" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = "t2.micro"
 
-  subnet_id                   = aws_subnet.public_subnet.id
-  vpc_security_group_ids      = [aws_security_group.devflow_sg.id]
+  subnet_id              = aws_subnet.public_subnet.id
+  vpc_security_group_ids = [aws_security_group.devflow_sg.id]
   associate_public_ip_address = true
 
   key_name = "devflow-key"
+
+  # 🔥 IMPORTANT FIX
+  depends_on = [
+    aws_internet_gateway.igw
+  ]
 
   tags = {
     Name = "DevFlow-server"

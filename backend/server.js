@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// test root
+// health check
 app.get("/", (req, res) => {
   res.send("Backend running 🚀");
 });
@@ -16,20 +16,19 @@ app.get("/api", (req, res) => {
   res.send("API working 🚀");
 });
 
+// in-memory data
 let users = [
   { name: "John" },
   { name: "Alice" }
 ];
 
-// ✅ FIXED ROUTES (IMPORTANT CHANGE)
-
-// GET users
-app.get("/users", (req, res) => {
+// ✅ GET users
+app.get("/api/users", (req, res) => {
   res.json(users);
 });
 
-// POST user
-app.post("/users", (req, res) => {
+// ✅ POST user
+app.post("/api/users", (req, res) => {
   const { name } = req.body;
 
   if (!name) {
@@ -40,6 +39,7 @@ app.post("/users", (req, res) => {
   res.json({ success: true });
 });
 
-app.listen(5000, () => {
+// start server
+app.listen(5000, "0.0.0.0", () => {
   console.log("Server running on port 5000");
 });

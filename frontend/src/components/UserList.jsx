@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 
+// 👉 .env থেকে API URL নিচ্ছে
+const API_BASE = import.meta.env.VITE_API_URL;
+
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
 
+  // 🔹 users load
   const loadUsers = async () => {
     try {
-      const res = await fetch("/api/users");
+      const res = await fetch(`${API_BASE}/api/users`);
       const data = await res.json();
       setUsers(data);
     } catch (err) {
@@ -18,11 +22,12 @@ export default function UserList() {
     loadUsers();
   }, []);
 
+  // 🔹 add user
   const handleAdd = async () => {
     if (!name) return;
 
     try {
-      await fetch("/api/users", {
+      await fetch(`${API_BASE}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +36,7 @@ export default function UserList() {
       });
 
       setName("");
-      loadUsers();
+      loadUsers(); // reload list
     } catch (err) {
       console.error("Error adding user:", err);
     }

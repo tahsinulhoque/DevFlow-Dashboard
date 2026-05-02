@@ -18,14 +18,11 @@ This project demonstrates how to design, deploy, and automate a scalable full-st
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture Diagram
 
-```
-User → CloudFront → 
-   (/) → S3 (Frontend)
-   (/api/*) → ALB → ECS Fargate → Node.js + Nginx
-```
-
+<p align="center">
+  <img src="./assets/architecture.png" width="800"/>
+</p>
 ---
 
 ## ⚙️ Tech Stack

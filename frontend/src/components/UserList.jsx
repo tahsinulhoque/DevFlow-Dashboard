@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 
-// 👉 .env থেকে API URL নিচ্ছে
-const API_BASE = import.meta.env.VITE_API_URL;
+// 👉 env fallback system (VERY IMPORTANT)
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
 
+  // 🔍 debug (check once)
+  console.log("API_BASE:", API_BASE);
+
   // 🔹 users load
   const loadUsers = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/users`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch users");
+      }
+
       const data = await res.json();
       setUsers(data);
     } catch (err) {
@@ -24,16 +32,20 @@ export default function UserList() {
 
   // 🔹 add user
   const handleAdd = async () => {
-    if (!name) return;
+    if (!name.trim()) return;
 
     try {
-      await fetch(`${API_BASE}/api/users`, {
+      const res = await fetch(`${API_BASE}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ name }),
       });
+
+      if (!res.ok) {
+        throw new Error("Failed to add user");
+      }
 
       setName("");
       loadUsers(); // reload list

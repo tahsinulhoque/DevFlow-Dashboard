@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
+// middleware
 app.use(cors());
 app.use(express.json());
 
@@ -11,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("Backend running 🚀");
 });
 
-// API base (optional)
+// API base
 app.get("/api", (req, res) => {
   res.send("API working 🚀");
 });
@@ -24,22 +25,31 @@ let users = [
 
 // ✅ GET users
 app.get("/api/users", (req, res) => {
-  res.json(users);
+  res.status(200).json(users);
 });
 
 // ✅ POST user
 app.post("/api/users", (req, res) => {
   const { name } = req.body;
 
-  if (!name) {
+  if (!name || !name.trim()) {
     return res.status(400).json({ error: "Name is required" });
   }
 
-  users.push({ name });
-  res.json({ success: true });
+  users.push({ name: name.trim() });
+
+  res.status(201).json({
+    success: true,
+    users
+  });
+});
+
+// ❌ fallback route (important for debugging)
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
 });
 
 // start server
 app.listen(5000, "0.0.0.0", () => {
-  console.log("Server running on port 5000");
+  console.log("Server running on port 5000 🚀");
 });

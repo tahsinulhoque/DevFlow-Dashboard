@@ -7,7 +7,7 @@
   "executionRoleArn": "arn:aws:iam::300597388443:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
-      "name": "backend-ts-one",   // 🔥 IMPORTANT
+      "name": "backend-ts-one",  
       "image": "dummy",
       "essential": true,
       "portMappings": [

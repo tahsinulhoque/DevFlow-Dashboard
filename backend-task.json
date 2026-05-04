@@ -7,7 +7,7 @@
   "executionRoleArn": "arn:aws:iam::300597388443:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
-      "name": "backend-ts-one",  
+      "name": "backend", 
       "image": "dummy",
       "essential": true,
       "portMappings": [
@@ -15,7 +15,15 @@
           "containerPort": 5000,
           "protocol": "tcp"
         }
-      ]
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/backend",
+          "awslogs-region": "us-west-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
     }
   ]
 }

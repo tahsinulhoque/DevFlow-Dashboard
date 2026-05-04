@@ -1,59 +1,40 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function UserList() {
-  const [users, setUsers] = useState([]);
+function App() {
+  const [users, setUsers] = useState(["John", "Alice"]);
   const [name, setName] = useState("");
 
-  const loadUsers = async () => {
-    try {
-      const res = await fetch("/api/users");
-      const data = await res.json();
-      setUsers(data);
-    } catch (err) {
-      console.error("Error loading users:", err);
-    }
-  };
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  const handleAdd = async () => {
-    if (!name.trim()) return;
-
-    try {
-      await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name }),
-      });
-
-      setName("");
-      loadUsers();
-    } catch (err) {
-      console.error("Error adding user:", err);
-    }
+  const addUser = () => {
+    if (name.trim() === "") return;
+    setUsers([...users, name]);
+    setName("");
   };
 
   return (
     <div style={{ padding: "20px" }}>
+      <h1>DevFlow Dashboard</h1>
+
       <h2>Users</h2>
 
+      {/* ✅ Total user count line */}
+      <p>
+        <strong>Total users:</strong> {users.length}
+      </p>
+
       <input
-        placeholder="Enter name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        placeholder="Enter name"
       />
-
-      <button onClick={handleAdd}>Add</button>
+      <button onClick={addUser}>Add</button>
 
       <ul>
         {users.map((u, i) => (
-          <li key={i}>{u.name}</li>
+          <li key={i}>{u}</li>
         ))}
       </ul>
     </div>
   );
 }
+
+export default App;

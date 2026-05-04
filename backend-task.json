@@ -1,5 +1,5 @@
 {
-  "family": "backend-task",
+  "family": "backend-ts-one",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "256",
@@ -7,7 +7,7 @@
   "executionRoleArn": "arn:aws:iam::300597388443:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
-      "name": "backend",
+      "name": "backend-ts-one",   // 🔥 IMPORTANT
       "image": "dummy",
       "essential": true,
       "portMappings": [

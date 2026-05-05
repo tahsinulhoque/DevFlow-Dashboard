@@ -45,7 +45,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: backend-task.json
-          container-name: backend   # ✅ MUST match JSON
+          container-name: backend-ts   # ✅ MUST match JSON
           image: ${{ env.IMAGE }}
 
       # 🔥 Deploy to ECS
